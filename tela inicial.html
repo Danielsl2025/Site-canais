@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLCANAIS - TV Online Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .channel-logo {
+            width: 160px;
+            height: 90px;
+            object-fit: contain;
+        }
+        
+        .scroll-container {
+            scrollbar-width: thin;
+            scrollbar-color: #2563eb #1e293b;
+        }
+        
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .scroll-container::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #2563eb;
+            border-radius: 10px;
+        }
+        
+        .live-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        
+        .plan-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-gray-900/90 backdrop-blur-md fixed w-full z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-bold text-blue-400 flex items-center">
+                            <span class="text-white">SL</span>CANAIS
+                            <span class="ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded-full">PRO</span>
+                        </a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-6">
+                            <a href="#" class="nav-link text-white px-3 py-2 text-sm font-medium">Início</a>
+                            <a href="#canais" class="nav-link text-gray-300 px-3 py-2 text-sm font-medium">Canais</a>
+                            <a href="#live" class="nav-link text-gray-300 px-3 py-2 text-sm font-medium">Ao Vivo</a>
+                            <a href="#planos" class="nav-link text-gray-300 px-3 py-2 text-sm font-medium">Planos</a>
+                            <a href="#dispositivos" class="nav-link text-gray-300 px-3 py-2 text-sm font-medium">Dispositivos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6 space-x-4">
+                        <div class="relative">
+                            <input type="text" placeholder="Buscar canais..." class="bg-gray-800/50 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 border border-gray-700">
+                            <button class="absolute right-3 top-2 text-gray-400 hover:text-white">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg hover:shadow-blue-500/20 transition-all">
+                            <i class="fas fa-user mr-2"></i> Minha Conta
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Abrir menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+                <input type="text" placeholder="Buscar canais..." class="bg-gray-700/50 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-3 border border-gray-600">
+                <a href="#" class="text-white block px-3 py-2 rounded-md text-base font-medium">Início</a>
+                <a href="#canais" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Canais</a>
+                <a href="#live" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ao Vivo</a>
+                <a href="#planos" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Planos</a>
+                <a href="#dispositivos" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dispositivos</a>
+                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-3 rounded-full text-base font-medium mt-2 shadow-lg">
+                    <i class="fas fa-user mr-2"></i> Minha Conta
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient pt-24 pb-16 md:pt-32 md:pb-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-0 w-full h-full bg-[url('https://via.placeholder.com/1920x1080/1e3a8a/ffffff?text=')] bg-cover bg-center"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <div class="bg-blue-900/30 text-blue-400 px-4 py-2 rounded-full inline-flex items-center text-sm mb-4 border border-blue-400/30">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                        TRANSMISSÃO AO VIVO 24/7
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 glow-text">
+                        TV Premium <span class="text-blue-400">em qualquer lugar</span>
+                    </h1>
+                    <p class="text-lg text-gray-300 mb-8 max-w-lg">
+                        Mais de 2.000 canais de TV, filmes, séries e esportes ao vivo em Full HD e 4K. 
+                        Transmissão estável sem travamentos.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center shadow-lg hover:shadow-blue-500/30 transition-all">
+                            <i class="fas fa-play mr-3"></i> ASSISTIR AGORA
+                        </button>
+                        <button class="bg-gray-900/50 hover:bg-gray-800/70 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center border border-gray-700 transition-all">
+                            <i class="fas fa-crown mr-3 text-yellow-400"></i> PLANOS
+                        </button>
+                    </div>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                            <span class="text-sm">2 horas grátis</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                            <span class="text-sm">Sem fidelidade</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                            <span class="text-sm">Cancelamento fácil</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center relative">
+                    <div class="relative w-full max-w-lg">
+                        <div class="absolute -top-6 -left-6 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+                        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-500/30">
+                            <img src="https://via.placeholder.com/600x400/1e3a8a/ffffff?text=PLAYER+SLCANAIS" alt="Player SLCANAIS" class="w-full h-auto">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                <div class="flex items-center">
+                                    <div class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center live-badge mr-3">
+                                        <span class="w-2 h-2 bg-white rounded-full mr-2"></span>
+                                        AO VIVO
+                                    </div>
+                                    <span class="text-white text-sm">Globo - Jornal Nacional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Por que escolher o SLCANAIS?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                    A melhor experiência em streaming de TV com qualidade premium
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card-hover bg-gray-800/50 p-8 rounded-xl border border-gray-700/50">
+                    <div class="feature-icon mb-6 text-white text-xl">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">+2.000 Canais</h3>
+                    <p class="text-gray-400">
+                        A maior variedade de canais nacionais e internacionais, incluindo esportes, filmes, séries e muito mais.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gray-800/50 p-8 rounded-xl border border-gray-700/50">
+                    <div class="feature-icon mb-6 text-white text-xl">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Transmissão Estável</h3>
+                    <p class="text-gray-400">
+                        Tecnologia avançada para evitar travamentos e buffering, mesmo em conexões mais lentas.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gray-800/50 p-8 rounded-xl border border-gray-700/50">
+                    <div class="feature-icon mb-6 text-white text-xl">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Multiplataforma</h3>
+                    <p class="text-gray-400">
+                        Assista em qualquer dispositivo: Smart TV, celular, tablet, computador ou TV Box.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Channels Section -->
+    <section id="canais" class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold">Canais Populares</h2>
+                <div class="flex space-x-3">
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Todos
+                    </button>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Esportes
+                    </button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Filmes
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="scroll-container overflow-x-auto pb-6 flex space-x-6">
+                    <!-- Channel Cards -->
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/1e40af/ffffff?text=GLOBO" alt="Globo" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">Globo</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-blue-900/50 text-blue-400 text-xs px-3 py-1 rounded-full">Entretenimento</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">HD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/ef4444/ffffff?text=SPORTV" alt="SportTV" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">SportTV</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-red-900/50 text-red-400 text-xs px-3 py-1 rounded-full">Esportes</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">FULL HD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/10b981/ffffff?text=PREMIERE" alt="Premiere" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">Premiere</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-red-900/50 text-red-400 text-xs px-3 py-1 rounded-full">Esportes</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">HD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/f59e0b/ffffff?text=HBO" alt="HBO" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">HBO</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-yellow-900/50 text-yellow-400 text-xs px-3 py-1 rounded-full">Filmes</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">4K</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/8b5cf6/ffffff?text=FOX" alt="Fox" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">Fox</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-purple-900/50 text-purple-400 text-xs px-3 py-1 rounded-full">Séries</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">FULL HD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-hover flex-shrink-0 w-56 bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                        <div class="p-4 flex justify-center bg-gray-900/30">
+                            <img src="https://via.placeholder.com/160x90/ec4899/ffffff?text=ESPN" alt="ESPN" class="channel-logo">
+                        </div>
+                        <div class="px-4 py-4">
+                            <h3 class="font-bold text-center mb-2">ESPN</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="bg-pink-900/50 text-pink-400 text-xs px-3 py-1 rounded-full">Esportes</span>
+                                <span class="bg-green-900/50 text-green-400 text-xs px-3 py-1 rounded-full">HD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <button class="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3 rounded-full font-medium border border-gray-700 transition-all">
+                    <i class="fas fa-list mr-2"></i> Ver Todos os Canais (2.000+)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live TV Section -->
+    <section id="live" class="py-16 bg-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold">Transmissões Ao Vivo</h2>
+                <div class="flex space-x-3">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Esportes
+                    </button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Notícias
+                    </button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all">
+                        Variedades
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Live Channel Cards -->
+                <div class="card-hover bg-gray-900/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30 relative">
+                    <div class="relative pt-[56.25%]">
+                        <img src="https://via.placeholder.com/600x338/1e40af/ffffff?text=JOGO+AO+VIVO" alt="Live Channel" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center live-badge">
+                            <span class="w-2 h-2 bg-white rounded-full mr-2"></span>
+                            LIVE
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs flex items-center">
+                            <i class="fas fa-eye mr-1"></i> 15.2K
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1">Flamengo x Palmeiras</h3>
+                        <p class="text-gray-400 text-sm">Campeonato Brasileiro - Série A</p>
+                        <div class="mt-3 flex items-center">
+                            <img src="https://via.placeholder.com/24x24/1e40af/ffffff?text=SPTV" alt="SportTV" class="w-5 h-5 mr-2">
+                            <span class="text-sm text-gray-300">SportTV</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-hover bg-gray-900/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30 relative">
+                    <div class="relative pt-[56.25%]">
+                        <img src="https://via.placeholder.com/600x338/ef4444/ffffff?text=JORNAL+AO+VIVO" alt="Live Channel" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center live-badge">
+                            <span class="w-2 h-2 bg-white rounded-full mr-2"></span>
+                            LIVE
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs flex items-center">
+                            <i class="fas fa-eye mr-1"></i> 9.8K
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1">Jornal Nacional</h3>
+                        <p class="text-gray-400 text-sm">Principais notícias do Brasil e do mundo</p>
+                        <div class="mt-3 flex items-center">
+                            <img src="https://via.placeholder.com/24x24/1e40af/ffffff?text=GLOBO" alt="Globo" class="w-5 h-5 mr-2">
+                            <span class="text-sm text-gray-300">Rede Globo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-hover bg-gray-900/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30 relative">
+                    <div class="relative pt-[56.25%]">
+                        <img src="https://via.placeholder.com/600x338/10b981/ffffff?text=SHOW+AO+VIVO" alt="Live Channel" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center live-badge">
+                            <span class="w-2 h-2 bg-white rounded-full mr-2"></span>
+                            LIVE
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs flex items-center">
+                            <i class="fas fa-eye mr-1"></i> 7.3K
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1">Rock in Rio 2023</h3>
+                        <p class="text-gray-400 text-sm">Show ao vivo: Foo Fighters</p>
+                        <div class="mt-3 flex items-center">
+                            <img src="https://via.placeholder.com/24x24/1e40af/ffffff?text=MULTI" alt="Multishow" class="w-5 h-5 mr-2">
+                            <span class="text-sm text-gray-300">Multishow</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section id="planos" class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Escolha Seu Plano</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Planos flexíveis para atender todas as necessidades. Experimente grátis por 2 horas.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Basic Plan -->
+                <div class="plan-card bg-gray-800/70 rounded-xl overflow-hidden shadow-lg border border-gray-700/30">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Básico</h3>
+                                <p class="text-gray-400 text-sm">Para quem quer começar</p>
+                            </div>
+                            <span class="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full">POPULAR</span>
+                        </div>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold">R$ 20,00</span>
+                            <span class="text-gray-400 ml-1">/mês</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>2.000+ Canais HD</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>1 Dispositivo</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>2 horas grátis</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Canais Premium</span>
+                            </li>
+                            <li class="flex items-center text-gray-500">
+                                <i class="fas fa-times text-red-500 mr-3"></i>
+                                <span>Gravação</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-lg font-medium transition-all">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 6 Months Plan (Featured) -->
+                <div class="plan-card bg-gradient-to-b from-blue-900/50 to-gray-900 rounded-xl overflow-hidden shadow-xl border border-blue-500 transform scale-105 z-10">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">6 Meses</h3>
+                                <p class="text-blue-300 text-sm">Melhor custo-benefício</p>
+                            </div>
+                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">RECOMENDADO</span>
+                        </div>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold">R$ 120,00</span>
+                            <span class="text-blue-300 ml-1">/6 meses</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>2.000+ Canais Full HD</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>1 Dispositivo</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>2 horas grátis</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Todos Canais Premium</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Gravação 50h</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-blue-500/30">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-gray-800/50 rounded-xl p-6 max-w-4xl mx-auto">
+                <h3 class="text-xl font-bold mb-4 text-center">Perguntas sobre planos?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start">
+                        <div class="bg-blue-600/20 text-blue-400 p-2 rounded-lg mr-4">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-1">Posso cancelar quando quiser?</h4>
+                            <p class="text-gray-400 text-sm">Sim, não há fidelidade e você pode cancelar a qualquer momento.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-blue-600/20 text-blue-400 p-2 rounded-lg mr-4">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-1">Como funciona o teste grátis?</h4>
+                            <p class="text-gray-400 text-sm">2 horas grátis para testar todos os recursos sem compromisso.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-blue-600/20 text-blue-400 p-2 rounded-lg mr-4">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-1">Posso mudar de plano depois?</h4>
+                            <p class="text-gray-400 text-sm">Sim, você pode alterar seu plano a qualquer momento.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-blue-600/20 text-blue-400 p-2 rounded-lg mr-4">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-1">Quais formas de pagamento?</h4>
+                            <p class="text-gray-400 text-sm">Cartão de crédito, débito, PIX and boleto bancário.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Devices Section -->
+    <section id="dispositivos" class="py-16 bg-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4">Assista em qualquer dispositivo</h2>
+                    <p class="text-gray-400 mb-6 text-lg">
+                        O SLCANAIS está disponível em todas as plataformas. Baixe nosso app ou acesse pelo navegador.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-center bg-gray-900/50 p-4 rounded-lg border border-gray-700/30">
+                            <div class="text-blue-500 text-2xl mr-4">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">Smart TVs</h3>
+                                <p class="text-gray-500 text-sm">Android TV, Samsung, LG</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-gray-900/50 p-4 rounded-lg border border-gray-700/30">
+                            <div class="text-blue-500 text-2xl mr-4">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">Celulares</h3>
+                                <p class="text-gray-500 text-sm">Android e iOS</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-gray-900/50 p-4 rounded-lg border border-gray-700/30">
+                            <div class="text-blue-500 text-2xl mr-4">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">Computadores</h3>
+                                <p class="text-gray-500 text-sm">Windows e Mac</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-gray-900/50 p-4 rounded-lg border border-gray-700/30">
+                            <div class="text-blue-500 text-2xl mr-4">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">TV Box</h3>
+                                <p class="text-gray-500 text-sm">Chromecast, Fire TV</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="flex items-center bg-gray-900 hover:bg-gray-800 text-white px-4 py-3 rounded-lg font-medium transition-all">
+                            <i class="fab fa-google-play text-xl mr-2"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Disponível no</div>
+                                <div class="text-sm">Google Play</div>
+                            </div>
+                        </button>
+                        <button class="flex items-center bg-gray-900 hover:bg-gray-800 text-white px-4 py-3 rounded-lg font-medium transition-all">
+                            <i class="fab fa-apple text-xl mr-2"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Baixe na</div>
+                                <div class="text-sm">App Store</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center relative">
+                    <div class="relative w-full max-w-md">
+                        <img src="https://via.placeholder.com/500x400/1e293b/ffffff?text=MULTIDISPOSITIVOS" alt="Dispositivos compatíveis" class="rounded-xl w-full">
+                        <div class="absolute -bottom-5 -right-5 bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span>100% compatível</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">O que nossos clientes dizem</h2>
+                <p class="text-gray-400">Mais de 50.000 assinantes satisfeitos</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card-hover bg-gray-800/50 p-6 rounded-xl border border-gray-700/30">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50x50/1e40af/ffffff?text=CL" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Carlos Lima</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">
+                        "Finalmente encontrei um serviço de IPTV confiável! A qualidade da imagem é incrível e nunca trava. Recomendo demais o SLCANAIS!"
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gray-800/50 p-6 rounded-xl border border-gray-700/30">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50x50/ec4899/ffffff?text=AS" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Ana Souza</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">
+                        "Assino há 6 meses e não tenho do que reclamar. O atendimento é excelente e sempre adicionam novos canais. Melhor custo-benefício!"
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gray-800/50 p-6 rounded-xl border border-gray-700/30">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50x50/10b981/ffffff?text=RF" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Roberto Ferreira</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">
+                        "Ótimo para assistir futebol! Todos os jogos do campeonato brasileiro e libertadores em HD sem travamentos. Vale cada centavo!"
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-gray-800/50 p-6 rounded-xl border border-gray-700/30">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50x50/f59e0b/ffffff?text=MS" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Mariana Santos</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">
+                        "Adoro a variedade de canais internacionais. Consigo assistir meus programas favoritos da Europa com ótima qualidade. Recomendo!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-800/50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Perguntas Frequentes</h2>
+                <p class="text-gray-400">Tire suas dúvidas sobre o SLCANAIS</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item -->
+                <div class="card-hover bg-gray-900/50 rounded-xl overflow-hidden border border-gray-700/30">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-left">
+                        <span class="font-medium">Como faço para assinar o SLCANAIS?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5">
+                        <p class="text-gray-400">
+                            Assinar o SLCANAIS é muito simples! Basta escolher o plano desejado na seção "Planos", clicar em "Assinar Agora" and preencher seus dados de pagamento. Você receberá um e-mail com todas as instruções para começar a assistir imediatamente. Oferecemos teste grátis de 2 horas para você conhecer nosso serviço.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item -->
+                <div class="card-hover bg-gray-900/50 rounded-xl overflow-hidden border border-gray-700/30">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-left">
+                        <span class="font-medium">Quais dispositivos são compatíveis?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5">
+                        <p class="text-gray-400">
+                            O SLCANAIS é compatível com a maioria dos dispositivos: Smart TVs (Android TV, Samsung, LG), computadores (Windows e Mac), smartphones e tablets (Android e iOS), além de dispositivos de streaming como Chromecast, Fire TV Stick, Mi Box e Apple TV. Também oferecemos aplicativos dedicados para melhor experiência em cada plataforma.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item -->
+                <div class="card-hover bg-gray-900/50 rounded-xl overflow-hidden border border-gray-700/30">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-left">
+                        <span class="font-medium">Posso assistir em mais de um dispositivo?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5">
+                        <p class="text-gray-400">
+                            Sim! O número de dispositivos simultâneos depende do seu plano: Básico (1 dispositivo), 6 Meses (1 dispositivo). Você pode gerenciar seus dispositivos conectados diretamente na sua conta no site. Lembre-se que o compartilhamento de conta com não-assinantes is proibido.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item -->
+                <div class="card-hover bg-gray-900/50 rounded-xl overflow-hidden border border-gray-700/30">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-left">
+                        <span class="font-medium">Como funciona o teste grátis?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5">
+                        <p class="text-gray-400">
+                            Oferecemos 2 horas de teste grátis para novos assinantes. Durante este período, você terá acesso completo a todos os canais e recursos do plano Premium. Não é necessário cartão de crédito para iniciar o teste. Após as 2 horas, se você não assinar, seu acesso será encerrado automáticamente.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item -->
+                <div class="card-hover bg-gray-900/50 rounded-xl overflow-hidden border border-gray-700/30">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-left">
+                        <span class="font-medium">Como faço para cancelar minha assinatura?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5">
+                        <p class="text-gray-400">
+                            Você pode cancelar sua assinatura a qualquer momento através da seção "Minha Conta" no site. O cancelamento é imediato e você continuará tendo acesso até o final do período já pago. Não há taxas de cancelamento ou multas, pois não trabalhamos com fidelidade. Caso tenha dificuldades, nossa equipe de suporte está disponível para ajudar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para transformar sua experiência de TV?</h2>
+            <p class="text-xl text-gray-300 mb-8">Assine agora e tenha acesso ilimitado a mais de 2.000 canais em qualquer dispositivo.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button class="bg-white hover:bg-gray-100 text-blue-600 px-8 py-4 rounded-full font-bold text-lg shadow-lg transition-all">
+                    <i class="fas fa-play mr-3"></i> ASSISTIR AGORA
+                </button>
+                <button class="bg-gray-900/50 hover:bg-gray-900/70 text-white px-8 py-4 rounded-full font-bold text-lg border border-gray-700 transition-all">
+                    <i class="fas fa-crown mr-3 text-yellow-400"></i> VER PLANOS
+                </button>
+            </div>
+            <div class="mt-8 flex justify-center space-x-6">
+                <div class="flex items-center">
+                    <i class="fas fa-lock text-gray-300 mr-2"></i>
+                    <span class="text-sm text-gray-300">Pagamento seguro</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-gray-300 mr-2"></i>
+                    <span class="text-sm text-gray-300">Privacidade garantida</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-headset text-gray-300 mr-2"></i>
+                    <span class="text-sm text-gray-300">Suporte 24/7</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 pt-12 pb-6 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                        <span class="text-blue-400">SL</span>CANAIS
+                        <span class="ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded-full">PRO</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        A melhor plataforma de streaming com os principais canais de TV, filmes, séries e esportes.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-all">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-all">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-all">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-all">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-all">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">Links Úteis</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Início</a></li>
+                        <li><a href="#canais" class="text-gray-400 hover:text-white transition-all">Canais</a></li>
+                        <li><a href="#live" class="text-gray-400 hover:text-white transition-all">Ao Vivo</a></li>
+                        <li><a href="#planos" class="text-gray-400 hover:text-white transition-all">Planos</a></li>
+                        <li><a href="#dispositivos" class="text-gray-400 hover:text-white transition-all">Dispositivos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">Suporte</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Central de Ajuda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Perguntas Frequentes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Termos de Uso</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all">Tutoriais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">Contato</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-gray-400 mt-1 mr-3"></i>
+                            <a href="mailto:contato@slcanais.com" class="text-gray-400 hover:text-white transition-all">contato@slcanais.com</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-gray-400 mt-1 mr-3"></i>
+                            <a href="tel:+551112345678" class="text-gray-400 hover:text-white transition-all">(11) 1234-5678</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">São Paulo - SP, Brasil</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-headset text-gray-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Suporte 24/7 via chat</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2023 SLCANAIS. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-6">
+                    <img src="https://via.placeholder.com/40x25/1e293b/ffffff?text=VISA" alt="Visa" class="h-6">
+                    <img src="https://via.placeholder.com/40x25/1e293b/ffffff?text=MC" alt="Mastercard" class="h-6">
+                    <img src="https://via.placeholder.com/40x25/1e293b/ffffff?text=AMEX" alt="American Express" class="h-6">
+                    <img src="https://via.placeholder.com/40x25/1e293b/ffffff?text=PIX" alt="Pix" class="h-6">
+                    <img src="https://via.placeholder.com/40x25/1e293b/ffffff?text=BOLETO" alt="Boleto" class="h-6">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.innerHTML = mobileMenu.classList.contains('hidden') ? 
+                '<i class="fas fa-bars text-xl"></i>' : 
+                '<i class="fas fa-times text-xl"></i>';
+        });
+        
+        // FAQ accordion
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                }
+            });
+        });
+        
+        // Add shadow on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-xl');
+                nav.classList.add('bg-gray-900');
+            } else {
+                nav.classList.remove('shadow-xl');
+                nav.classList.remove('bg-gray-900');
+            }
+        });
+    </script>
+</body>
+</html>
